@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from uuid import uuid4 as id4
 
 from models.api_products import products, Products
@@ -28,5 +28,6 @@ def obtain_product_by_id (product_id : str):
     for product in result:
         return product
     
-    return {f"The product {product_id} doesn't exist"}
+    raise HTTPException(status_code = 404, detail = f"The product {product_id} doesn't exist")
+
 
