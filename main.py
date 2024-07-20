@@ -31,3 +31,13 @@ def obtain_product_by_id (product_id : str):
     raise HTTPException(status_code = 404, detail = f"The product {product_id} doesn't exist")
 
 
+@app.delete('/product/{product_id}')
+def delete_product_by_id(product_id : str):
+    result = filter(lambda product : product.id == product_id, products)
+    
+    for product in result:
+        products.remove(product)
+        return f'The product {product_id} has been deleted'
+    
+    raise HTTPException(status_code = 404, detail = f"The product {product_id} doesn't exist")
+
