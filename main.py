@@ -23,9 +23,10 @@ def create_products (product : Products):
 
 @app.get('/product/{product_id}')
 def obtain_product_by_id (product_id : str):
-    for product in products:
-        if product.id == product_id:
-            return product
-        else:
-            return {f"The product {product_id} doesn't exist"}
+    result = filter(lambda product : product.id == product_id, products)
+    
+    for product in result:
+        return product
+    
+    return {f"The product {product_id} doesn't exist"}
 
