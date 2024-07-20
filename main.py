@@ -1,8 +1,6 @@
-from typing import Union
-
 from fastapi import FastAPI
 
-from pydantic import BaseModel
+from models.api_products import products, Products
 
 app = FastAPI()
 
@@ -10,4 +8,13 @@ app = FastAPI()
 @app.get("/")
 def read_root():
     return {'Hi mother fuckers'}
+
+@app.get('/products')
+def obtein_products ():
+    return products
+
+@app.post('/products')
+def create_products (product : Products):
+    products.append(product)
+    return {f'The product has been created'}
 
