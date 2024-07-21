@@ -11,3 +11,4 @@ class Products (BaseModel):
     provedor : Optional[str | None] = None
 
 products = []
+

@@ -1,13 +1,13 @@
 from fastapi import FastAPI, HTTPException
 from uuid import uuid4 as id4
 
-from models.api_products import products, Products
+from models.clases import products, Products
 
 
 app = FastAPI()
 
 
-@app.get("/")
+@app.get ("/")
 def read_root():
     return {'Hi mother fuckers'}
 
@@ -21,7 +21,7 @@ def create_products (product : Products):
     products.append(product)
     return {f'The product has been created'}
 
-@app.get('/product/{product_id}')
+@app.get ('/product/{product_id}')
 def obtain_product_by_id (product_id : str):
     result = filter(lambda product : product.id == product_id, products)
     
@@ -31,7 +31,20 @@ def obtain_product_by_id (product_id : str):
     raise HTTPException(status_code = 404, detail = f"The product {product_id} doesn't exist")
 
 
-@app.delete('/product/{product_id}')
+@app.put ('/product/{product_id}')
+def update_product_by_id(product_id : str, product_new : Products):
+    result = filter(lambda product : product.id == product_id, products)
+    
+    for product in result:
+        product.nombre = product_new.nombre
+        product.precio_compra = product_new.precio_compra
+        product.precio_venta = product_new.precio_venta
+        product.provedor = product_new.provedor
+        return f'The product {product_id} has been updated'
+    
+    raise HTTPException(status_code = 404, detail = f"The product {product_id} doesn't exist")
+
+@app.delete ('/product/{product_id}')
 def delete_product_by_id(product_id : str):
     result = filter(lambda product : product.id == product_id, products)
     
@@ -40,4 +53,3 @@ def delete_product_by_id(product_id : str):
         return f'The product {product_id} has been deleted'
     
     raise HTTPException(status_code = 404, detail = f"The product {product_id} doesn't exist")
-
