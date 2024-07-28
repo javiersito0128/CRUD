@@ -11,15 +11,11 @@ app = FastAPI()
 def read_root():
     return {'Hi mother fuckers'}
 
+
 @app.get ('/products')
 def obtein_products ():
     return products
 
-@app.post ('/products')
-def create_products (product : Products):
-    product.id = str(id4())
-    products.append(product)
-    return {f'The product has been created'}
 
 @app.get ('/product/{product_id}')
 def obtain_product_by_id (product_id : str):
@@ -29,6 +25,13 @@ def obtain_product_by_id (product_id : str):
         return product
     
     raise HTTPException(status_code = 404, detail = f"The product {product_id} doesn't exist")
+
+
+@app.post ('/products')
+def create_products (product : Products):
+    product.id = str(id4())
+    products.append(product)
+    return {f'The product has been created'}
 
 
 @app.put ('/product/{product_id}')
@@ -44,6 +47,7 @@ def update_product_by_id(product_id : str, product_new : Products):
     
     raise HTTPException(status_code = 404, detail = f"The product {product_id} doesn't exist")
 
+
 @app.delete ('/product/{product_id}')
 def delete_product_by_id(product_id : str):
     result = filter(lambda product : product.id == product_id, products)
@@ -53,3 +57,4 @@ def delete_product_by_id(product_id : str):
         return f'The product {product_id} has been deleted'
     
     raise HTTPException(status_code = 404, detail = f"The product {product_id} doesn't exist")
+
