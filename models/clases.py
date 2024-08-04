@@ -1,6 +1,9 @@
+from enum import Enum
+
 from pydantic import BaseModel
 
 from typing import Optional
+
 
 
 class Products (BaseModel):
@@ -9,6 +12,12 @@ class Products (BaseModel):
     precio_compra : float
     precio_venta : float
     provedor : Optional[str | None] = None
+
+class ModelName (str ,Enum):
+    alexnet = 'alexnet'
+    resnet = 'resnet'
+    lenet = 'lenet'
+
 
 products = []
 

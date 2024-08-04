@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from uuid import uuid4 as id4
 
-from models.clases import products, Products
+from models.clases import products, Products, ModelName
 
 
 app = FastAPI()
@@ -57,4 +57,15 @@ def delete_product_by_id(product_id : str):
         return f'The product {product_id} has been deleted'
     
     raise HTTPException(status_code = 404, detail = f"The product {product_id} doesn't exist")
+
+@app.get('/models/{modelsname}')
+async def get_model(model_name : ModelName):
+    if model_name is ModelName.alexnet:
+        return {'model_name' : model_name, 'message' : 'Deep learing FTW!'}
+
+    if model_name.value == 'lenet':
+        return {'model_name' : model_name, 'message' : 'LeCNN all the images'}
+    
+    
+    return {'model_name' : model_name, 'message' : 'Have some residuals'}
 
