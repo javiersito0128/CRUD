@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from uuid import uuid4 as id4
 
-from models.clases import products, Products, ModelName
+from models.clases import products, fake_items_db, Products, ModelName
 
 
 app = FastAPI()
@@ -58,6 +58,7 @@ def delete_product_by_id(product_id : str):
     
     raise HTTPException(status_code = 404, detail = f"The product {product_id} doesn't exist")
 
+
 @app.get('/models/{modelsname}')
 async def get_model(model_name : ModelName):
     if model_name is ModelName.alexnet:
@@ -69,7 +70,12 @@ async def get_model(model_name : ModelName):
     
     return {'model_name' : model_name, 'message' : 'Have some residuals'}
 
+
 @app.get ('/files/{files_path}')
 async def read_file (file_path : str):
     return {'file_path' : file_path}
 
+
+@app.get("/items/")
+async def read_item(skip: int = 0, limit: int = 10):
+    return fake_items_db[skip : skip + limit]
